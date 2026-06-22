@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MediaMarkt Business - Plataforma B2B integrada para soluciones comerciales, garantías y procedimientos." />
+  <meta name="theme-color" content="#df0000" />
+  <meta property="og:title" content="MediaMarkt Business | Plataforma B2B" />
+  <meta property="og:description" content="Catálogo de soluciones, comparador, garantías y herramientas B2B" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  
+  <title>MediaMarkt Business | Plataforma B2B Integrada</title>
+  
+  <style>
+    /* ===== VARIABLES CSS ===== */
+    :root {
+      --mm-red: #df0000;
+      --mm-soft: #fff2f2;
+      --bg: #f4f6f8;
+      --panel: #fff;
+      --text: #12151c;
+      --text-2: #5d6675;
+      --text-3: #6b7280;
+      --border: #e6eaf0;
+      --sb: #0b0d12;
+      --shadow-sm: 0 6px 18px rgba(16, 24, 40, 0.06);
+      --shadow-md: 0 10px 24px rgba(16, 24, 40, 0.1);
+    }
+
+    /* ===== RESET ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(circle at top left, rgba(223, 0, 0, 0.05) 0%, transparent 50%),
+                  linear-gradient(135deg, var(--bg) 0%, #e8ecf1 100%);
+      color: var(--text);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    /* ===== SELECCIÓN DE TEXTO ===== */
+    /* Permitir selección en contenido principal */
+    .page, .product-info, .msg, .solution-ai-result, .guarantee-card, 
+    .procedure-detail, section > div {
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    /* Mantener no seleccionable en UI/navegación */
+    .sidebar, .nav-item, .btn, .topbar, header {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* ===== SVG ACCESSIBILITY ===== */
+    svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    svg path {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ===== ICONOS DIMENSIONADOS ===== */
+    .search svg, .toolbar-search svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      color: var(--text-2);
+    }
+
+    .alert-box svg {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .category-card svg, .vertical-card svg {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    /* ===== LAYOUT PRINCIPAL ===== */
+    .app {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+    }
+
+    .app.locked {
+      display: none;
+    }
+
+    .login-screen {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--bg), #e8ecf1);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .login-screen.active {
+      display: flex;
+    }
+
+    .login-card {
+      background: var(--panel);
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      width: 90%;
+      max-width: 380px;
+    }
+
+    .login-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .brand-badge {
+      width: 48px;
+      height: 48px;
+      background: var(--mm-red);
+      color: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input:focus {
+      outline: none;
+      border-color: var(--mm-red);
+      box-shadow: 0 0 0 3px rgba(223, 0, 0, 0.1);
+    }
+
+    .input:required {
+      /* Indicador visual para campos requeridos */
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--mm-red);
+      outline-offset: 2px;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: var(--mm-red);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #c40000;
+    }
+
+    .btn-secondary {
+      background: var(--border);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: #d1d9e0;
+    }
+
+    .login-help {
+      margin-top: 16px;
+      padding: 12px;
+      background: var(--mm-soft);
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+
+    .login-help strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 300px;
+      background: linear-gradient(180deg, var(--sb), #0f131c 70%);
+      color: #fff;
+      padding: 20px 16px;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      overflow-y: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 8px;
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+
+    .brand-text span {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    .nav-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-bottom: 12px;
+      padding: 0 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 8px;
+      margin-bottom: 4px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-item:focus-visible {
+      outline: 2px solid white;
+      outline-offset: -2px;
+    }
+
+    .nav-item.active {
+      background: rgba(223, 0, 0, 0.2);
+      border-left-color: var(--mm-red);
+      color: #fff;
+    }
+
+    .nav-item.active[aria-current="page"] {
+      font-weight: 600;
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-note {
+      font-size: 12px;
+      opacity: 0.6;
+      margin-top: 24px;
+      padding: 12px 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* ===== TOPBAR ===== */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .top-left, .top-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      flex: 1;
+      max-width: 300px;
+    }
+
+    .search input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      background: var(--mm-red);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .user-meta strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .user-meta span {
+      display: block;
+      font-size: 12px;
+      color: var(--text-3);
+    }
+
+    /* ===== CONTENT AREA ===== */
+    .view {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .view.active {
+      display: flex;
+      flex-direction: column;
+      opacity: 1;
+    }
+
+    .page {
+      padding: 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .page-header {
+      margin-bottom: 24px;
+    }
+
+    .page-header h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .page-header p {
+      color: var(--text-2);
+      font-size: 14px;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      background: linear-gradient(135deg, var(--mm-red) 0%, #c40000 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+
+    .hero-main {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .hero-icon {
+      font-size: 48px;
+    }
+
+    .hero-content h2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .hero-content p {
+      opacity: 0.9;
+      margin-bottom: 16px;
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      transition: all 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: #d1d9e0;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .card p {
+      color: var(--text-2);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* ===== TOAST/NOTIFICACIONES ===== */
+    .chip {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 6px;
+      box-shadow: var(--shadow-md);
+      font-size: 14px;
+      z-index: 9000;
+      animation: slideInUp 0.3s ease-out;
+    }
+
+    .chip[role="status"] {
+      /* Para accesibilidad */
+    }
+
+    @keyframes slideInUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* ===== PRINT ===== */
+    .print-hide {
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+
+    @media print {
+      .print-hide {
+        display: none;
+      }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .app {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        display: none;
+      }
+
+      .page {
+        padding: 16px;
+      }
+
+      .page-header h1 {
+        font-size: 20px;
+      }
+
+      .hero-main {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .search {
+        max-width: 100%;
+      }
+    }
+
+    /* ===== FOCUS VISIBLE ===== */
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid var(--mm-red);
+      outline-offset: 2px;
+    }
+
+    /* ===== CONTRASTE MEJORADO ===== */
+    .text-secondary {
+      color: var(--text-3);
+    }
+
+    /* ===== ACCESIBILIDAD ===== */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+  <!-- LOGIN SCREEN -->
+  <div id="loginScreen" class="login-screen active" role="main" aria-label="Pantalla de inicio de sesión">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="brand-badge" aria-hidden="true">M</div>
+        <div>
+          <h1>MediaMarkt Business</h1>
+          <p>Acceso comercial B2B</p>
+        </div>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)" novalidate>
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input 
+            id="loginEmail" 
+            class="input" 
+            type="email" 
+            required 
+            autocomplete="email"
+            aria-required="true"
+            aria-label="Correo electrónico"
+          />
+        </div>
+
+        <div class="field">
+          <label for="loginPassword">Contraseña</label>
+          <input 
+            id="loginPassword" 
+            class="input" 
+            type="password" 
+            required 
+            autocomplete="current-password"
+            aria-required="true"
+            aria-label="Contraseña"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%">Entrar</button>
+      </form>
+
+      <div class="login-help" role="note">
+        <strong>Usuarios demo:</strong>
+        <div>Comercial: comercial@mediamarkt.es / demo123</div>
+        <div>Admin: admin@mediamarkt.es / admin123</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="appRoot" class="app locked" role="main" aria-label="Aplicación principal">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Navegación principal">
+      <div class="brand">
+        <div class="brand-badge" aria-hidden="true">M</div>
+        <div class="brand-text">
+          <strong>MediaMarktBusiness</strong>
+          <span>Plataforma comercial B2B</span>
+        </div>
+      </div>
+
+      <div class="nav-title">Navegación</div>
+
+      <div class="nav-item active" data-nav="view-dashboard" role="tab" aria-selected="true" aria-controls="view-dashboard" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 3h8v8H3V3Zm10 0h8v5h-8V3ZM3 13h5v8H3v-8Zm7 0h11v8H10v-8Z"/>
+        </svg>
+        <span>Dashboard</span>
+      </div>
+
+      <div class="nav-item" data-nav="view-servicios" role="tab" aria-selected="false" aria-controls="view-servicios" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-label="Catálogo de soluciones">
+          <path d="M20 6h-4V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2Z"/>
+        </svg>
+        <span>Catálogo de Soluciones</span>
+      </div>
+
+      <div class="nav-item" data-nav="view-compare" role="tab" aria-selected="false" aria-controls="view-compare" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-label="Comparador">
+          <path d="M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h5V3Zm9 0h-5v18h5a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Z"/>
+        </svg>
+        <span>Comparador</span>
+      </div>
+
+      <div class="nav-item" data-nav="view-preparar" role="tab" aria-selected="false" aria-controls="view-preparar" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-label="Preparar reunión">
+          <path d="M4 5a3 3 0 0 1 3-3h8l5 5v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V5Zm8 1v3h3"/>
+        </svg>
+        <span>Preparar reunión</span>
+      </div>
+
+      <div class="nav-item" data-nav="view-copiloto" role="tab" aria-selected="false" aria-controls="view-copiloto" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-label="Copiloto roleplay">
+          <path d="M12 2a7 7 0 0 0-7 7v3.2A3.8 3.8 0 0 0 2 16v1a3 3 0 0 0 3 3h4v-2H5a1 1 0 0 1-1-1v-1a1.8 1.8 0 0 1 1.8-1.8H7V9a5 5 0 0 1 10 0v7.2h-.2A1.8 1.8 0 0 0 16 16v1a1 1 0 0 1-1 1h-4v2h4a3 3 0 0 0 3-3v-1a3.8 3.8 0 0 0-3-3.8V9a7 7 0 0 0-7-7Z"/>
+        </svg>
+        <span>Copiloto</span>
+      </div>
+
+      <div class="nav-item" data-nav="view-garantias" role="tab" aria-selected="false" aria-controls="view-garantias" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-label="Garantías">
+          <path d="M12 2 5 5v6c0 5 3.5 9.7 7 11 3.5-1.3 7-6 7-11V5l-7-3Z"/>
+          <path d="m9.5 12.2 1.7 1.7 3.8-4"/>
+        </svg>
+        <span>Garantías</span>
+      </div>
+
+      <div class="nav-item" data-nav="view-propuesta" role="tab" aria-selected="false" aria-controls="view-propuesta" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-label="Propuesta PDF">
+          <path d="M4 5a3 3 0 0 1 3-3h8l5 5v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V5Zm8 1v3h3"/>
+        </svg>
+        <span>Propuesta PDF</span>
+      </div>
+
+      <div class="nav-item" data-nav="view-procedimientos" role="tab" aria-selected="false" aria-controls="view-procedimientos" tabindex="0">
+        <svg viewBox="0 0 24 24" aria-label="Procedimientos">
+          <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18.5a1.5 1.5 0 0 1-2.4 1.2L14 19l-3.6 2.7A1.5 1.5 0 0 1 8 20.5V4H6.5A.5.5 0 0 1 6 3.5V2.5"/>
+        </svg>
+        <span>Procedimientos</span>
+      </div>
+
+      <div id="adminNavItem" class="nav-item" data-nav="view-admin" role="tab" aria-selected="false" aria-controls="view-admin" tabindex="0" style="display:none">
+        <svg viewBox="0 0 24 24" aria-label="Panel admin">
+          <path d="M12 3l8 4v6c0 5-3.5 8-8 8s-8-3-8-8V7l8-4Z"/>
+          <path d="M9 12h6M12 9v6"/>
+        </svg>
+        <span>Admin</span>
+      </div>
+
+      <div class="sidebar-note">Plataforma integrada: soluciones + garantías + comparador + preparar reunión + roleplay + procedimientos + admin.</div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <header class="topbar print-hide" role="banner">
+        <div class="top-left">
+          <div class="search" role="search">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16a6.47 6.47 0 0 0 4.23-1.57l.27.28v.79L20 21.5"/>
+            </svg>
+            <input 
+              type="search" 
+              placeholder="Buscar..." 
+              aria-label="Búsqueda global"
+              id="globalSearch"
+            />
+          </div>
+        </div>
+
+        <div class="top-right">
+          <div class="user">
+            <div class="avatar" id="userAvatar" aria-label="Avatar del usuario">RS</div>
+            <div class="user-meta">
+              <strong id="userName">Rodriguez Ser</strong>
+              <span id="userRole">Comercial B2B</span>
+            </div>
+          </div>
+          <button class="btn btn-secondary" onclick="logout()" aria-label="Cerrar sesión">Salir</button>
+        </div>
+      </header>
+
+      <!-- VIEWS -->
+      <section id="view-dashboard" class="view active" role="region" aria-label="Dashboard">
+        <div class="page">
+          <div class="hero" role="img" aria-label="Bienvenido a MediaMarkt Business">
+            <div class="hero-main">
+              <div class="hero-icon">📊</div>
+              <div class="hero-content">
+                <h2>Bienvenido a MediaMarkt Business</h2>
+                <p>Plataforma integrada para soluciones comerciales, garantías y gestión B2B</p>
+              </div>
+            </div>
+          </div>
+          <div id="dashboardContent"></div>
+        </div>
+      </section>
+
+      <section id="view-servicios" class="view" role="region" aria-label="Catálogo de Soluciones">
+        <div class="page">
+          <div class="page-header">
+            <h1>Catálogo de Soluciones B2B</h1>
+            <p>Recomendación de producto profesional + servicio B2B + garantía</p>
+          </div>
+          <div id="serviciosContent"></div>
+        </div>
+      </section>
+
+      <section id="view-compare" class="view" role="region" aria-label="Comparador de soluciones">
+        <div class="page">
+          <div class="page-header">
+            <h1>Comparador de soluciones</h1>
+            <p>Selecciona dos soluciones para decidir cuál mover primero</p>
+          </div>
+          <div id="compareContent"></div>
+        </div>
+      </section>
+
+      <section id="view-preparar" class="view" role="region" aria-label="Preparar reunión">
+        <div class="page">
+          <div class="page-header">
+            <h1>Preparar reunión</h1>
+            <p>Resumen ejecutivo, pitch, discovery y siguiente paso</p>
+          </div>
+          <div id="prepararContent"></div>
+        </div>
+      </section>
+
+      <section id="view-copiloto" class="view" role="region" aria-label="Copiloto Roleplay">
+        <div class="page">
+          <div class="page-header">
+            <h1>Copiloto Roleplay</h1>
+            <p>Practica venta de soluciones y objeciones de garantías</p>
+          </div>
+          <div id="copiloroContent"></div>
+        </div>
+      </section>
+
+      <section id="view-garantias" class="view" role="region" aria-label="Garantías B2B">
+        <div class="page">
+          <div class="page-header">
+            <h1>Protección y garantías B2B</h1>
+            <p>Convierte la garantía en propuesta de valor: detecta riesgo, ofrece solución</p>
+          </div>
+          <div id="garantiasContent"></div>
+        </div>
+      </section>
+
+      <section id="view-propuesta" class="view" role="region" aria-label="Propuesta PDF">
+        <div class="page">
+          <div class="page-header">
+            <h1>Propuesta / resumen PDF</h1>
+            <p>Hoja comercial lista para imprimir o guardar como PDF</p>
+          </div>
+          <div id="propuestaContent"></div>
+        </div>
+      </section>
+
+      <section id="view-procedimientos" class="view" role="region" aria-label="Procedimientos">
+        <div class="page">
+          <div class="page-header">
+            <h1>Procedimientos</h1>
+            <p>Base de conocimiento: solventar incidencias, procesos, troubleshooting</p>
+          </div>
+          <div id="procedimientosContent"></div>
+        </div>
+      </section>
+
+      <section id="view-admin" class="view" role="region" aria-label="Panel admin">
+        <div class="page">
+          <div class="page-header">
+            <h1>Panel admin simulado</h1>
+            <p>Edita soluciones, productos gobernados y procedimientos en localStorage</p>
+          </div>
+          <div id="adminContent"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- NOTIFICACIONES CON ARIA-LIVE -->
+  <div id="toastContainer" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <script>
+    'use strict';
+
+    // ===== UTILIDADES =====
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+    /**
+     * Escapa caracteres HTML para prevenir XSS
+     */
+    function escapeHtml(v = "") {
+      return String(v)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    /**
+     * Normaliza texto para búsqueda
+     */
+    function normalizeText(str = "") {
+      return String(str)
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^\p{L}\p{N}\s/-]/gu, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    /**
+     * Muestra una notificación tipo toast
+     */
+    function showToast(msg, type = "info") {
+      const container = $("#toastContainer");
+      const toast = document.createElement("div");
+      toast.className = `chip`;
+      toast.setAttribute("role", "status");
+      toast.setAttribute("aria-live", "polite");
+      toast.textContent = msg;
+      toast.style.backgroundColor = type === "error" ? "#dc2626" : type === "success" ? "#059669" : "#3b82f6";
+      
+      container.appendChild(toast);
+      
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // ===== AUTENTICACIÓN =====
+    let currentUser = null;
+
+    const demoUsers = [
+      {
+        email: "comercial@mediamarkt.es",
+        password: "demo123",
+        name: "Rodriguez Ser",
+        initials: "RS",
+        role: "Comercial B2B",
+        isAdmin: false
+      },
+      {
+        email: "admin@mediamarkt.es",
+        password: "admin123",
+        name: "Admin User",
+        initials: "AU",
+        role: "Administrador",
+        isAdmin: true
+      }
+    ];
+
+    function getSessionUser() {
+      try {
+        return JSON.parse(localStorage.getItem("mmb_session_user") || "null");
+      } catch (e) {
+        console.error("Error parsing session:", e);
+        return null;
+      }
+    }
+
+    function setSessionUser(user) {
+      try {
+        localStorage.setItem("mmb_session_user", JSON.stringify(user));
+      } catch (e) {
+        console.error("Error saving session:", e);
+        showToast("Error al guardar sesión", "error");
+      }
+    }
+
+    function clearSessionUser() {
+      try {
+        localStorage.removeItem("mmb_session_user");
+      } catch (e) {
+        console.error("Error clearing session:", e);
+      }
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+      
+      const email = $("#loginEmail").value.trim().toLowerCase();
+      const password = $("#loginPassword").value.trim();
+
+      const user = demoUsers.find((u) => u.email === email && u.password === password);
+
+      if (!user) {
+        showToast("Email o contraseña incorrectos", "error");
+        return;
+      }
+
+      currentUser = user;
+      setSessionUser(user);
+      applyLoggedUser();
+      showToast(`Bienvenido ${user.name}`, "success");
+    }
+
+    function applyLoggedUser() {
+      if (!currentUser) return;
+
+      $("#loginScreen").classList.remove("active");
+      $("#appRoot").classList.remove("locked");
+
+      $("#userAvatar").textContent = currentUser.initials;
+      $("#userName").textContent = currentUser.name;
+      $("#userRole").textContent = currentUser.role;
+
+      if (currentUser.isAdmin) {
+        $("#adminNavItem").style.display = "flex";
+      }
+
+      bindEvents();
+      init();
+    }
+
+    function logout() {
+      clearSessionUser();
+      currentUser = null;
+      $("#appRoot").classList.add("locked");
+      $("#loginScreen").classList.add("active");
+      navTo("view-dashboard");
+      showToast("Sesión cerrada", "info");
+    }
+
+    function initAuth() {
+      currentUser = getSessionUser();
+      if (currentUser) {
+        applyLoggedUser();
+      } else {
+        $("#loginScreen").classList.add("active");
+        $("#appRoot").classList.add("locked");
+      }
+    }
+
+    // ===== NAVEGACIÓN =====
+    function navTo(id) {
+      $$(".view").forEach((v) => v.classList.remove("active"));
+      const targetView = $("#" + id);
+      if (targetView) {
+        targetView.classList.add("active");
+      }
+
+      $$(".nav-item").forEach((n) => {
+        const isActive = n.dataset.nav === id;
+        n.classList.toggle("active", isActive);
+        n.setAttribute("aria-selected", isActive);
+      });
+    }
+
+    function bindEvents() {
+      $$(".nav-item").forEach((item) => {
+        item.addEventListener("click", () => navTo(item.dataset.nav));
+        item.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            navTo(item.dataset.nav);
+          }
+        });
+      });
+    }
+
+    // ===== INICIALIZACIÓN =====
+    function init() {
+      // Aquí irían las funciones de renderizado
+      console.log("App inicializada para:", currentUser.name);
+    }
+
+    // Iniciar autenticación al cargar
+    document.addEventListener("DOMContentLoaded", () => {
+      initAuth();
+    });
+  </script>
+</body>
+</html>
